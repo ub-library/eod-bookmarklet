@@ -45,6 +45,10 @@ import * as config from "../config.json";
     { id: "r", label: "Receiving Note", type: "text" },
   ];
 
+  fields = fields.filter((field) => {
+    return !(Array.isArray(field.options) && field.options.length == 0);
+  });
+
   fields.forEach(function (field) {
     var label = document.createElement("label");
     label.textContent = field.label + ": ";
