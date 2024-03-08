@@ -3,9 +3,14 @@
   form.style.position = "fixed";
   form.style.top = "0";
   form.style.left = "0";
-  form.style.backgroundColor = "#fff";
-  form.style.border = "1px solid #ddd";
-  form.style.padding = "10px";
+  form.style.display = "grid";
+  form.style.gridTemplateColumns = "1fr 1fr";
+  form.style.gridGap = "0.3rem 0.5rem";
+  form.style.padding = "1rem 0.5rem";
+  form.style.font = "1rem sans-serif";
+  form.style.alignItems = "center";
+  form.style.backgroundColor = "#fff0f8";
+  form.style.border = "1px solid #999094";
   form.style.zIndex = "10000";
 
   var fields = [
@@ -47,6 +52,7 @@
     var label = document.createElement("label");
     label.textContent = field.label + ": ";
     label.htmlFor = field.id;
+    label.style.textAlign = "right";
     form.appendChild(label);
 
     var input;
@@ -68,14 +74,16 @@
       if (field.value) input.value = field.value;
     }
     input.id = field.id;
+    input.style.fontSize = "inherit";
     input.required = true;
     form.appendChild(input);
-    form.appendChild(document.createElement("br"));
   });
 
   var submitButton = document.createElement("button");
   submitButton.textContent = "Skapa anmärkning";
   submitButton.type = "submit";
+  submitButton.style.gridColumn = "2 / 3";
+  submitButton.style.fontSize = "inherit";
   form.appendChild(submitButton);
 
   form.onsubmit = function (e) {
