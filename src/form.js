@@ -17,8 +17,8 @@ import * as config from "../config.json";
   var fields = [
     { id: "v", label: "Vendor", options: config.vendors || [] },
     { id: "f", label: "Fund", options: config.funds || [] },
-    { id: "p", label: "Pris", type: "number" },
-    { id: "a", label: "Antal", type: "number" },
+    { id: "p", label: "Pris", type: "number", required: true },
+    { id: "a", label: "Antal", type: "number", required: true },
     { id: "c", label: "1st Report", options: config.report1 || [] },
     { id: "s", label: "2nd Report", options: config.report2 || [] },
     { id: "n", label: "Note", type: "text" },
@@ -45,9 +45,12 @@ import * as config from "../config.json";
       label.style.display = "none";
     } else if (options) {
       input = document.createElement("select");
+      input.required = true;
       var emptyOption = document.createElement("option");
-      emptyOption.textContent = "";
+      emptyOption.textContent = "-- Välj ett alternativ --";
       emptyOption.value = "";
+      emptyOption.selected = true;
+      emptyOption.disabled = true;
       input.appendChild(emptyOption);
       field.options.forEach(function (option) {
         var optionElement = document.createElement("option");
@@ -58,11 +61,11 @@ import * as config from "../config.json";
     } else {
       input = document.createElement("input");
       input.type = field.type;
+      if (field.required) input.required = true;
       if (field.value) input.value = field.value;
     }
     input.id = field.id;
     input.style.fontSize = "inherit";
-    input.required = true;
     form.appendChild(input);
   });
 
