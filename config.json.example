@@ -1,10 +1,17 @@
 {
-  "vendors": ["vendor1", "vendor2", "vendor3"],
-  "funds": ["fund1", "fund2", "fund3"],
-  "report1": ["reporting_code_1"],
-  "report2": [
-    ["reporting2_code1", "Label for 2nd rep code 1"],
-    ["reporting2_code2", "Label for 2nd rep code 2"],
-    ["-", "-"]
-  ]
+  "vendors": [
+    ["vendor_code1", "A single option will become a hidden input"]
+  ],
+  "funds": [
+    "unlabeled_fund1",
+    ["fund2", "Fund 2 has a label!"],
+    "unlabeled_fund3"
+  ],
+  "report1": [
+    ["code1", "Code 1 Label"],
+    ["code2", "Code 2 Label"],
+    ["code3", "An empty list as below"],
+    ["code4", "will omit the field"]
+  ],
+  "report2": []
 }
