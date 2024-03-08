@@ -1,3 +1,4 @@
+import * as config from "../config.json";
 (function () {
   var form = document.createElement("form");
   form.style.position = "fixed";
@@ -18,13 +19,13 @@
       id: "v",
       label: "Vendor",
       type: "select",
-      options: ["vendor1", "vendor2", "vendor3"],
+      options: config.vendors,
     },
     {
       id: "f",
       label: "Fund",
       type: "select",
-      options: ["fund1", "fund2", "fund3"],
+      options: config.funds,
     },
     { id: "p", label: "Pris", type: "number" },
     { id: "a", label: "Antal", type: "number" },
@@ -32,17 +33,13 @@
       id: "c",
       label: "Reporting code",
       type: "text",
-      value: "reporting_code1",
+      value: config.reporting_code1,
     },
     {
       id: "s",
       label: "Secondary reporting code",
       type: "select",
-      options: [
-        ["reporting2_code1", "Label for 2nd rep code 1"],
-        ["reporting2_code2", "Label for 2nd rep code 2"],
-        ["-", "-"],
-      ],
+      options: config.reporting_code_2,
     },
     { id: "n", label: "Note", type: "text" },
     { id: "r", label: "Receiving Note", type: "text" },

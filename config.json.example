@@ -1,0 +1,10 @@
+{
+  "vendors": ["vendor1", "vendor2", "vendor3"],
+  "funds": ["fund1", "fund2", "fund3"],
+  "reporting_code": "reporting_code_1",
+  "reporting_code_2": [
+    ["reporting2_code1", "Label for 2nd rep code 1"],
+    ["reporting2_code2", "Label for 2nd rep code 2"],
+    ["-", "-"]
+  ]
+}
