@@ -15,32 +15,12 @@ import * as config from "../config.json";
   form.style.zIndex = "10000";
 
   var fields = [
-    {
-      id: "v",
-      label: "Vendor",
-      type: "select",
-      options: config.vendors,
-    },
-    {
-      id: "f",
-      label: "Fund",
-      type: "select",
-      options: config.funds,
-    },
+    { id: "v", label: "Vendor", options: config.vendors },
+    { id: "f", label: "Fund", options: config.funds },
     { id: "p", label: "Pris", type: "number" },
     { id: "a", label: "Antal", type: "number" },
-    {
-      id: "c",
-      label: "Reporting code",
-      type: "text",
-      value: config.reporting_code1,
-    },
-    {
-      id: "s",
-      label: "Secondary reporting code",
-      type: "select",
-      options: config.reporting_code_2,
-    },
+    { id: "c", label: "1st Report", options: config.report1 },
+    { id: "s", label: "2nd Report", options: config.report2 },
     { id: "n", label: "Note", type: "text" },
     { id: "r", label: "Receiving Note", type: "text" },
   ];
@@ -56,8 +36,14 @@ import * as config from "../config.json";
     label.style.textAlign = "right";
     form.appendChild(label);
 
+    var options = field.options;
     var input;
-    if (field.type === "select") {
+    if (Array.isArray(options) && options.length == 1) {
+      input = document.createElement("input");
+      input.type = "hidden";
+      input.value = options[0];
+      label.style.display = "none";
+    } else if (Array.isArray(options)) {
       input = document.createElement("select");
       var emptyOption = document.createElement("option");
       emptyOption.textContent = "";
