@@ -1,5 +1,5 @@
-import * as config from "../config.json";
-(function () {
+export { form };
+function form(config) {
   var form = document.createElement("form");
   form.style.position = "fixed";
   form.style.top = "0";
@@ -87,4 +87,4 @@ import * as config from "../config.json";
   };
 
   document.body.insertBefore(form, document.body.firstChild);
-})();
+}

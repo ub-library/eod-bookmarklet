@@ -1,3 +1,5 @@
-out/main.js : src/form.js config.json
+SOURCES := $(wildcard src/*)
+
+out/main.js : $(SOURCES) config.json
 	@mkdir -p out
-	esbuild --bundle $< > $@
+	esbuild --bundle src/index.js > $@
