@@ -1,11 +1,13 @@
 export { form };
-function form(config) {
+function form({ fields, options = {}, defaults = {}, labels = {} }) {
+  var labels = { submit: "Submit", emptyOption: "---", ...labels };
+
   var form = document.createElement("form");
   form.style.position = "fixed";
   form.style.top = "0";
   form.style.left = "0";
   form.style.display = "grid";
-  form.style.gridTemplateColumns = "1fr 1fr";
+  form.style.gridTemplateColumns = "auto auto";
   form.style.gridGap = "0.3rem 0.5rem";
   form.style.padding = "1rem 0.5rem";
   form.style.font = "1rem sans-serif";
@@ -14,23 +16,19 @@ function form(config) {
   form.style.border = "1px solid #999094";
   form.style.zIndex = "10000";
 
-  var fields = [
-    { id: "v", label: "Vendor", options: config.vendors || [] },
-    { id: "f", label: "Fund", options: config.funds || [] },
-    { id: "p", label: "Pris", type: "number", required: true },
-    { id: "a", label: "Antal", type: "number", required: true },
-    { id: "c", label: "1st Report", options: config.report1 || [] },
-    { id: "s", label: "2nd Report", options: config.report2 || [] },
-    { id: "n", label: "Note", type: "text" },
-    { id: "r", label: "Receiving Note", type: "text" },
-  ];
-
-  fields = fields.filter((field) => {
-    return !(Array.isArray(field.options) && field.options.length == 0);
-  });
+  fields = fields
+    .map((field) => {
+      return {
+        ...field,
+        options: options[field.id],
+        preset: defaults[field.id],
+        type: field.type || "text",
+      };
+    })
+    .filter((field) => !(field.options && field.options.length == 0));
 
   fields.forEach(function (field) {
-    var preset = config.defaults[field.id];
+    var preset = field.preset;
     var label = document.createElement("label");
     label.textContent = field.label + ": ";
     label.htmlFor = field.id;
@@ -49,7 +47,7 @@ function form(config) {
       input.required = true;
       if (!preset) {
         var emptyOption = document.createElement("option");
-        emptyOption.textContent = "-- Välj ett alternativ --";
+        emptyOption.textContent = labels.emptyOption;
         emptyOption.value = "";
         emptyOption.selected = true;
         emptyOption.disabled = true;
@@ -73,7 +71,7 @@ function form(config) {
   });
 
   var submitButton = document.createElement("button");
-  submitButton.textContent = "Skapa anmärkning";
+  submitButton.textContent = labels.submit;
   submitButton.type = "submit";
   submitButton.style.gridColumn = "2 / 3";
   submitButton.style.fontSize = "inherit";

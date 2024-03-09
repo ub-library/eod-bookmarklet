@@ -1,3 +1,11 @@
 import * as config from "../config.json";
 import { form } from "./form.js";
-form({ ...config, ...config.overrides.some_vendor });
+
+function override(config, overrides) {
+  return {
+    ...config,
+    options: { ...config.options, ...overrides.options },
+    defaults: { ...config.defaults, ...overrides.defaults },
+  };
+}
+form(override(config, config.overrides.some_vendor));
