@@ -1,8 +1,18 @@
 export { form };
 function form({ fields, options = {}, defaults = {}, labels = {} }) {
-  var labels = { submit: "Submit", emptyOption: "---", ...labels };
+  labels = { submit: "Submit", emptyOption: "---", ...labels };
+  fields = fields
+    .map((field) => {
+      return {
+        ...field,
+        options: options[field.id],
+        preset: defaults[field.id],
+        type: field.type || "text",
+      };
+    })
+    .filter((field) => !(field.options && field.options.length == 0));
 
-  var form = document.createElement("form");
+  const form = document.createElement("form");
   form.style.position = "fixed";
   form.style.top = "0";
   form.style.left = "0";
@@ -16,27 +26,18 @@ function form({ fields, options = {}, defaults = {}, labels = {} }) {
   form.style.border = "1px solid #999094";
   form.style.zIndex = "10000";
 
-  fields = fields
-    .map((field) => {
-      return {
-        ...field,
-        options: options[field.id],
-        preset: defaults[field.id],
-        type: field.type || "text",
-      };
-    })
-    .filter((field) => !(field.options && field.options.length == 0));
-
   fields.forEach(function (field) {
-    var preset = field.preset;
-    var label = document.createElement("label");
+    const options = field.options;
+    const preset = field.preset;
+
+    let input;
+
+    const label = document.createElement("label");
     label.textContent = field.label + ": ";
     label.htmlFor = field.id;
     label.style.textAlign = "right";
     form.appendChild(label);
 
-    var options = field.options;
-    var input;
     if (options && options.length == 1) {
       input = document.createElement("input");
       input.type = "hidden";
@@ -46,7 +47,7 @@ function form({ fields, options = {}, defaults = {}, labels = {} }) {
       input = document.createElement("select");
       input.required = true;
       if (!preset) {
-        var emptyOption = document.createElement("option");
+        const emptyOption = document.createElement("option");
         emptyOption.textContent = labels.emptyOption;
         emptyOption.value = "";
         emptyOption.selected = true;
@@ -54,7 +55,7 @@ function form({ fields, options = {}, defaults = {}, labels = {} }) {
         input.appendChild(emptyOption);
       }
       field.options.forEach(function (option) {
-        var optionElement = document.createElement("option");
+        const optionElement = document.createElement("option");
         optionElement.value = Array.isArray(option) ? option[0] : option;
         optionElement.textContent = Array.isArray(option) ? option[1] : option;
         input.appendChild(optionElement);
@@ -70,7 +71,7 @@ function form({ fields, options = {}, defaults = {}, labels = {} }) {
     form.appendChild(input);
   });
 
-  var submitButton = document.createElement("button");
+  const submitButton = document.createElement("button");
   submitButton.textContent = labels.submit;
   submitButton.type = "submit";
   submitButton.style.gridColumn = "2 / 3";
@@ -79,7 +80,7 @@ function form({ fields, options = {}, defaults = {}, labels = {} }) {
 
   form.onsubmit = function (e) {
     e.preventDefault();
-    var formData = {};
+    const formData = {};
     fields.forEach(function (field) {
       formData[field.id] = document.getElementById(field.id).value;
     });
