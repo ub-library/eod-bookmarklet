@@ -13,5 +13,8 @@
     ["code3", "An empty list as below"],
     ["code4", "will omit the field"]
   ],
-  "report2": []
+  "report2": [],
+  "defaults": {
+    "c": "code2"
+  }
 }

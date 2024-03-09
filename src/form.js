@@ -30,6 +30,7 @@ function form(config) {
   });
 
   fields.forEach(function (field) {
+    var preset = config.defaults[field.id];
     var label = document.createElement("label");
     label.textContent = field.label + ": ";
     label.htmlFor = field.id;
@@ -46,12 +47,14 @@ function form(config) {
     } else if (options) {
       input = document.createElement("select");
       input.required = true;
-      var emptyOption = document.createElement("option");
-      emptyOption.textContent = "-- Välj ett alternativ --";
-      emptyOption.value = "";
-      emptyOption.selected = true;
-      emptyOption.disabled = true;
-      input.appendChild(emptyOption);
+      if (!preset) {
+        var emptyOption = document.createElement("option");
+        emptyOption.textContent = "-- Välj ett alternativ --";
+        emptyOption.value = "";
+        emptyOption.selected = true;
+        emptyOption.disabled = true;
+        input.appendChild(emptyOption);
+      }
       field.options.forEach(function (option) {
         var optionElement = document.createElement("option");
         optionElement.value = Array.isArray(option) ? option[0] : option;
@@ -62,9 +65,9 @@ function form(config) {
       input = document.createElement("input");
       input.type = field.type;
       if (field.required) input.required = true;
-      if (field.value) input.value = field.value;
     }
     input.id = field.id;
+    if (preset) input.value = preset;
     input.style.fontSize = "inherit";
     form.appendChild(input);
   });
