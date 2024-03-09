@@ -16,5 +16,13 @@
   "report2": [],
   "defaults": {
     "c": "code2"
+  },
+  "overrides": {
+    "some_vendor": {
+      "report2": [ "report2_code1" ],
+      "defaults": {
+        "c": "code1"
+      }
+    }
   }
 }
