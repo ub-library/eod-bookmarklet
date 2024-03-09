@@ -1,5 +1,8 @@
-export { form };
-function form({ fields, options = {}, defaults = {}, labels = {} }, callback) {
+export { createForm };
+function createForm(
+  { fields, options = {}, defaults = {}, labels = {} },
+  callback,
+) {
   labels = { submit: "Submit", emptyOption: "---", ...labels };
   fields = fields
     .map((field) => {
@@ -13,9 +16,6 @@ function form({ fields, options = {}, defaults = {}, labels = {} }, callback) {
     .filter((field) => !(field.options && field.options.length == 0));
 
   const form = document.createElement("form");
-  form.style.position = "fixed";
-  form.style.top = "0";
-  form.style.left = "0";
   form.style.display = "grid";
   form.style.gridTemplateColumns = "auto auto";
   form.style.gridGap = "0.3rem 0.5rem";
@@ -88,5 +88,5 @@ function form({ fields, options = {}, defaults = {}, labels = {} }, callback) {
     callback(JSON.stringify(formData), form);
   };
 
-  document.body.insertBefore(form, document.body.firstChild);
+  return form;
 }
