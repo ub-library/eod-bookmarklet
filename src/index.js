@@ -8,4 +8,8 @@ function override(config, overrides) {
     defaults: { ...config.defaults, ...overrides.defaults },
   };
 }
-form(override(config, config.overrides.some_vendor));
+form(override(config, config.overrides.some_vendor), (str, form) => {
+  if (window.prompt(str, str)) {
+    document.body.removeChild(form);
+  }
+});

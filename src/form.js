@@ -1,5 +1,5 @@
 export { form };
-function form({ fields, options = {}, defaults = {}, labels = {} }) {
+function form({ fields, options = {}, defaults = {}, labels = {} }, callback) {
   labels = { submit: "Submit", emptyOption: "---", ...labels };
   fields = fields
     .map((field) => {
@@ -85,8 +85,7 @@ function form({ fields, options = {}, defaults = {}, labels = {} }) {
     fields.forEach(function (field) {
       formData[field.id] = document.getElementById(field.id).value;
     });
-    alert(JSON.stringify(formData));
-    document.body.removeChild(form);
+    callback(JSON.stringify(formData), form);
   };
 
   document.body.insertBefore(form, document.body.firstChild);
