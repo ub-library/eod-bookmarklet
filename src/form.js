@@ -39,9 +39,10 @@ function form({ fields, options = {}, defaults = {}, labels = {} }) {
     form.appendChild(label);
 
     if (options && options.length == 1) {
+      const option = options[0];
       input = document.createElement("input");
       input.type = "hidden";
-      input.value = options[0];
+      input.value = Array.isArray(option) ? option[0] : option;
       label.style.display = "none";
     } else if (options) {
       input = document.createElement("select");
