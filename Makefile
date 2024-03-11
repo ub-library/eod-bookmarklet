@@ -17,3 +17,7 @@ out/bookmarklet.html : templates/bookmarklet.html.mustache out/main.js
 
 .PHONY : pages
 pages : out/index.html out/bookmarklet.html
+
+.PHONY : clean
+clean:
+	find out -mindepth 1 -delete
