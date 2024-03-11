@@ -13,6 +13,8 @@
           packages = [
             pkgs.bashInteractive
             pkgs.esbuild
+            pkgs.jq
+            pkgs.mustache-go
             pkgs.nodePackages.prettier
           ];
         };
