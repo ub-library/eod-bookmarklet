@@ -1,7 +1,10 @@
 <!doctype html>
 <html>
-  <head></head>
+  <head>
+    <title>{{^bookmarkletName}}Create EOD{{/bookmarkletName}}{{ bookmarkletName }}</title>
+  </head>
   <body>
-    <a href="javascript:void({{ jsUri }})">Bookmarklet</a>
+    <a href="javascript:void({{ jsUri }})"
+    >{{^bookmarkletName}}Create EOD{{/bookmarkletName}}{{ bookmarkletName }}</a>
   </body>
 </html>

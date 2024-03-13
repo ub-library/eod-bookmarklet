@@ -1,5 +1,6 @@
 {
   "labels": {
+    "bookmarkletName": "Create EOD",
     "copyPrompt": "Copy the generated code",
     "submit": "Create JSON",
     "emptyOption": "-- Select an option --"
