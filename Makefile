@@ -1,6 +1,9 @@
 .PHONY : default
 default : pages
 
+SHELL = bash
+.SHELLFLAGS := -e -o pipefail -c
+
 SOURCES := $(wildcard src/*)
 
 ALMA_API_HOST ?= https://api-eu.hosted.exlibrisgroup.com
@@ -32,15 +35,15 @@ else
 endif
 
 tmp/funds.json : script/funds_to_conf.jq $(call GUARD,ALMA_AUTH_HEADER_COMMAND)
-	set -eo pipefail; $(curl)  $(ALMA_API)'/acq/funds?limit=100&view=brief' \
+	$(curl)  $(ALMA_API)'/acq/funds?limit=100&view=brief' \
 		| jq -f $< > $@
 
 tmp/report1.json : script/reporting_codes_to_conf.jq $(call GUARD,ALMA_AUTH_HEADER_COMMAND)
-	set -eo pipefail; $(curl) $(ALMA_API)'/conf/code-tables/HFundsTransactionItem.reportingCode' \
+	$(curl) $(ALMA_API)'/conf/code-tables/HFundsTransactionItem.reportingCode' \
 		| jq -f $< > $@
 
 tmp/report2.json : script/reporting_codes_to_conf.jq $(call GUARD,ALMA_AUTH_HEADER_COMMAND)
-	set -eo pipefail; $(curl) $(ALMA_API)'/conf/code-tables/SecondReportingCode' \
+	$(curl) $(ALMA_API)'/conf/code-tables/SecondReportingCode' \
 		| jq -f $< > $@
 
 tmp/default_options.json : script/default_options.jq tmp/funds.json tmp/report1.json tmp/report2.json
