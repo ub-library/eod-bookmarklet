@@ -18,13 +18,24 @@ function createForm(
   const form = document.createElement("form");
   form.style.display = "grid";
   form.style.gridTemplateColumns = "auto auto";
-  form.style.gridGap = "0.3rem 0.5rem";
-  form.style.padding = "1rem 0.5rem";
-  form.style.font = "1rem sans-serif";
+  form.style.gridGap = "0.3em 0.5em";
+  form.style.padding = "1em 0.5em";
+  form.style.font = "max(1rem, 16px) sans-serif";
   form.style.alignItems = "center";
   form.style.backgroundColor = "#fff0f8";
   form.style.border = "1px solid #999094";
-  form.style.zIndex = "10000";
+  form.style.position = "fixed";
+  form.style.zIndex = "1000000";
+
+  const closeButton = document.createElement("button");
+  closeButton.type = "button";
+  closeButton.textContent = "\u274C";
+  closeButton.style.marginLeft = "auto";
+  closeButton.style.gridColumn = "2 / 3";
+  closeButton.onclick = (e) => {
+    form.remove();
+  };
+  form.appendChild(closeButton);
 
   fields.forEach(function (field) {
     const options = field.options;
