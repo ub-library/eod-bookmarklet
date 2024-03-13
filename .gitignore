@@ -1,3 +1,5 @@
 /.envrc
 /config.json
+/config.json.default
 /out/*
+/tmp/*
