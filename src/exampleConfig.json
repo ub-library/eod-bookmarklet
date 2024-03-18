@@ -1,49 +1,4 @@
 {
-  "labels": {
-    "bookmarkletName": "Create EOD",
-    "banner": "EOD Bookmarklet is Active",
-    "copyPrompt": "Copy the generated EOD code",
-    "submit": "Create EOD code",
-    "emptyOption": "-- Select an option --"
-  },
-  "fields": [
-    {
-      "id": "v",
-      "label": "Vendor"
-    },
-    {
-      "id": "f",
-      "label": "Fund"
-    },
-    {
-      "id": "p",
-      "label": "Price",
-      "type": "number",
-      "required": true
-    },
-    {
-      "id": "a",
-      "label": "Quantity",
-      "type": "number",
-      "required": true
-    },
-    {
-      "id": "c",
-      "label": "Reporting Code"
-    },
-    {
-      "id": "s",
-      "label": "2nd Rep. Code"
-    },
-    {
-      "id": "n",
-      "label": "Note"
-    },
-    {
-      "id": "r",
-      "label": "Receiving Note"
-    }
-  ],
   "options": {
     "v": ["map", "field", "ids", "to", "lists", "of", "options"],
     "f": [

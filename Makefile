@@ -46,15 +46,24 @@ tmp/report2.json : script/reporting_codes_to_conf.jq $(call GUARD,ALMA_AUTH_HEAD
 	$(curl) $(ALMA_API)'/conf/code-tables/SecondReportingCode' \
 		| jq -f $< > $@
 
-tmp/default_options.json : script/default_options.jq tmp/funds.json tmp/report1.json tmp/report2.json
+tmp/alma_options.json : script/alma_options.jq tmp/funds.json tmp/report1.json tmp/report2.json
 	jq \
 		--slurpfile f tmp/funds.json \
 		--slurpfile c tmp/report1.json \
 		--slurpfile s tmp/report2.json \
 		-n -f $< > $@
 
-config.json.default : config.json.example tmp/default_options.json
+config.json.example : src/defaultConfig.json src/exampleConfig.json
 	cat $^ | jq '. * input' | $(prettify-json) > $@
+
+config.json.alma : src/defaultConfig.json tmp/alma_options.json
+	cat $^ | jq '. * input' | $(prettify-json) > $@
+
+tmp/labels.json : src/defaultConfig.json config.json
+	( jq '.labels // {}' < $<; \
+		jq '.labels // {}' < config.json; ) \
+		| jq '. * input' \
+		> $@
 
 out/main.js : $(SOURCES) config.json
 	@mkdir -p out
@@ -64,10 +73,10 @@ out/index.html : templates/index.html
 	@mkdir -p out
 	cp $< $@
 
-out/bookmarklet.html : templates/bookmarklet.html.mustache out/main.js config.json
+out/bookmarklet.html : templates/bookmarklet.html.mustache out/main.js tmp/labels.json
 	@mkdir -p out
 	( jq -Rs 'sub(";\n$$"; "") | @uri | { jsUri : . }' < out/main.js; \
-		jq '.labels' < config.json; ) \
+		jq < tmp/labels.json; ) \
 		| jq '. * input' \
 		| mustache $< > $@
 

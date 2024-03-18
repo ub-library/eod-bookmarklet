@@ -1,5 +1,5 @@
 import * as userConfig from "../config.json";
-import * as defaultLabels from "./defaultLabels.json";
+import * as defaultConfig from "./defaultConfig.json";
 
 export { config, adlibrisConfig, overlayConfig };
 
@@ -12,8 +12,9 @@ function overlayConfig(config, overlay) {
   };
 }
 
-const config = {
-  ...userConfig,
-  labels: { ...defaultLabels, ...userConfig.labels },
-};
+// First merge at top level, then at the level of allowed overlays
+const config = overlayConfig(
+  { ...defaultConfig, ...userConfig },
+  overlayConfig(defaultConfig, userConfig),
+);
 const adlibrisConfig = overlayConfig(config, config.adlibris);
