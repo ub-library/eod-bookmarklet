@@ -16,5 +16,9 @@
     { "id": "s", "label": "2nd Rep. Code" },
     { "id": "n", "label": "Note" },
     { "id": "r", "label": "Receiving Note" }
-  ]
+  ],
+  "mappings": {
+    "price": "p",
+    "quantity": "a"
+  }
 }

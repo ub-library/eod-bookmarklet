@@ -24,10 +24,6 @@
     "options": {
       "v": ["field"],
       "s": ["sndCode3"]
-    },
-    "mappings": {
-      "price": "p",
-      "quantity": "a"
     }
   }
 }
