@@ -22,16 +22,18 @@ function createForm({ fields, options = {}, defaults = {}, labels }, callback) {
   form.style.backgroundColor = "#fff0f8";
   form.style.border = "1px solid #999094";
 
-  const closeButton = document.createElement("button");
-  closeButton.type = "button";
-  closeButton.textContent = "\u274C";
-  closeButton.style.all = "revert";
-  closeButton.style.marginLeft = "auto";
-  closeButton.style.gridColumn = "2 / 3";
-  closeButton.onclick = (e) => {
-    form.remove();
-  };
-  form.appendChild(closeButton);
+  if (labels.closeButton) {
+    const closeButton = document.createElement("button");
+    closeButton.type = "button";
+    closeButton.textContent = labels.closeButton;
+    closeButton.style.all = "revert";
+    closeButton.style.marginLeft = "auto";
+    closeButton.style.gridColumn = "2 / 3";
+    closeButton.onclick = (e) => {
+      form.remove();
+    };
+    form.appendChild(closeButton);
+  }
 
   fields.forEach(function (field) {
     const options = field.options;
