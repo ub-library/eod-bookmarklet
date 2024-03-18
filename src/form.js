@@ -12,20 +12,20 @@ function createForm({ fields, options = {}, defaults = {}, labels }, callback) {
     .filter((field) => !(field.options && field.options.length == 0));
 
   const form = document.createElement("form");
-  form.style.display = "grid";
+  form.style.all = "revert";
+  form.style.display = "inline-grid";
   form.style.gridTemplateColumns = "auto auto";
   form.style.gridGap = "0.3em 0.5em";
   form.style.padding = "1em 0.5em";
-  form.style.font = "max(1rem, 16px) sans-serif";
+  form.style.font = "caption";
   form.style.alignItems = "center";
   form.style.backgroundColor = "#fff0f8";
   form.style.border = "1px solid #999094";
-  form.style.position = "fixed";
-  form.style.zIndex = "1000000";
 
   const closeButton = document.createElement("button");
   closeButton.type = "button";
   closeButton.textContent = "\u274C";
+  closeButton.style.all = "revert";
   closeButton.style.marginLeft = "auto";
   closeButton.style.gridColumn = "2 / 3";
   closeButton.onclick = (e) => {
@@ -75,15 +75,17 @@ function createForm({ fields, options = {}, defaults = {}, labels }, callback) {
     }
     input.id = field.id;
     if (preset) input.value = preset;
-    input.style.fontSize = "inherit";
+    input.style.all = "revert";
+    input.style.font = "caption";
     form.appendChild(input);
   });
 
   const submitButton = document.createElement("button");
   submitButton.textContent = labels.submit;
   submitButton.type = "submit";
+  submitButton.style.all = "revert";
   submitButton.style.gridColumn = "2 / 3";
-  submitButton.style.fontSize = "inherit";
+  submitButton.style.font = "caption";
   form.appendChild(submitButton);
 
   form.onsubmit = function (e) {

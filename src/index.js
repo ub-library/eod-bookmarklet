@@ -6,5 +6,7 @@ const myForm = createForm(config, (str, form) => {
     form.remove();
   }
 });
+myForm.style.position = "fixed";
+myForm.style.zIndex = "1000000";
 
 document.body.insertBefore(myForm, document.body.firstChild);
