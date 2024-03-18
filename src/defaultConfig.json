@@ -20,5 +20,13 @@
   "mappings": {
     "price": "p",
     "quantity": "a"
+  },
+  "adlibris": {
+    "labels": {
+      "closeButton": null,
+      "dateNoteField": "Publik anmärkning",
+      "datePrefix": "Ordered ",
+      "dateSuffix": "."
+    }
   }
 }

@@ -17,4 +17,8 @@ const config = overlayConfig(
   { ...defaultConfig, ...userConfig },
   overlayConfig(defaultConfig, userConfig),
 );
-const adlibrisConfig = overlayConfig(config, config.adlibris);
+// Merge in both default adlibris config and custom adlibris config
+const adlibrisConfig = overlayConfig(
+  config,
+  overlayConfig(defaultConfig.adlibris, config.adlibris),
+);

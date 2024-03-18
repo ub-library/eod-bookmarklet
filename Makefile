@@ -65,17 +65,17 @@ tmp/labels.json : src/defaultConfig.json config.json
 		| jq '. * input' \
 		> $@
 
-out/main.js : $(SOURCES) config.json
+out/%.js : src/%.js $(SOURCES) config.json
 	@mkdir -p out
-	esbuild --minify --bundle src/index.js > $@
+	esbuild --minify --bundle $< > $@
 
-out/index.html : templates/index.html
+out/%.html : templates/%.html
 	@mkdir -p out
 	cp $< $@
 
-out/bookmarklet.html : templates/bookmarklet.html.mustache out/main.js tmp/labels.json
+out/bookmarklet.html : templates/bookmarklet.html.mustache out/bookmarklet.js tmp/labels.json
 	@mkdir -p out
-	( jq -Rs 'sub(";\n$$"; "") | @uri | { jsUri : . }' < out/main.js; \
+	( jq -Rs 'sub(";\n$$"; "") | @uri | { jsUri : . }' < out/bookmarklet.js; \
 		jq < tmp/labels.json; ) \
 		| jq '. * input' \
 		| mustache $< > $@

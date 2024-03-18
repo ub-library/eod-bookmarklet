@@ -49,6 +49,18 @@
     "price": "p",
     "quantity": "a"
   },
+  "adlibris": {
+    "labels": {
+      "closeButton": null,
+      "dateNoteField": "Publik anmärkning",
+      "datePrefix": "Ordered ",
+      "dateSuffix": "."
+    },
+    "options": {
+      "v": ["field"],
+      "s": ["sndCode3"]
+    }
+  },
   "options": {
     "v": ["map", "field", "ids", "to", "lists", "of", "options"],
     "f": [
@@ -69,11 +81,5 @@
   },
   "defaults": {
     "s": "sndCode1"
-  },
-  "adlibris": {
-    "options": {
-      "v": ["field"],
-      "s": ["sndCode3"]
-    }
   }
 }
