@@ -1,9 +1,8 @@
-import * as config from "../config.json";
+import { config } from "./config.js";
 import { createForm } from "./form.js";
 
-myForm = createForm(config, (str, form) => {
-  const label = (config.labels || {}).copyPrompt || "Copy the generated code";
-  if (window.prompt(label, str)) {
+const myForm = createForm(config, (str, form) => {
+  if (window.prompt(config.labels.copyPrompt, str)) {
     form.remove();
   }
 });

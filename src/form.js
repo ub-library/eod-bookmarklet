@@ -1,9 +1,5 @@
 export { createForm };
-function createForm(
-  { fields, options = {}, defaults = {}, labels = {} },
-  callback,
-) {
-  labels = { submit: "Submit", emptyOption: "---", ...labels };
+function createForm({ fields, options = {}, defaults = {}, labels }, callback) {
   fields = fields
     .map((field) => {
       return {
