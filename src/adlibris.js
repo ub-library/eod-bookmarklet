@@ -44,9 +44,7 @@ function getPrices(parent) {
   }
   waitForElement(document.body, itemSelector, (_) => {
     document.querySelectorAll(itemSelector).forEach((item) => {
-      console.log(item);
       const itemDetails = item.querySelector(itemDetailsSelector).textContent;
-      console.log("itemDetails", itemDetails);
       const itemQuantity = getQuantity(item);
       const itemTotal = extractPrice(
         item.querySelector(".product-item-price__price"),
@@ -58,7 +56,7 @@ function getPrices(parent) {
           price: itemTotal / itemQuantity,
           equipment: equipmentTotal / itemQuantity,
         };
-        console.log("Got prices", prices);
+        console.debug("Got prices", prices);
       } else {
         console.warn(
           "Failed to get prices",
