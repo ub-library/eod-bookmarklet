@@ -1,5 +1,5 @@
 import { adlibrisConfig as config, overlayConfig } from "./config.js";
-import { observeUrlChange, waitForElement } from "./observers.js";
+import { observeUrlChange, waitForElement, debounce } from "./observers.js";
 import { createForm } from "./form.js";
 
 export { activateAdlibris };
@@ -14,6 +14,14 @@ const cartSelector = "b2l-cart";
 
 const prices = {};
 
+const pageObservers = [];
+
+function clearPageObservers() {
+  pageObservers.forEach((observer) => {
+    observer.disconnect();
+  });
+  pageObservers.length = 0;
+}
 
 function getQuantityPurchase(item) {
   return Number(
@@ -75,8 +83,47 @@ function cartRoute() {
   getPrices("b2l-cart");
 }
 
+function updatePrices(newEquipmentPrice) {
+  for (const [key, oldPrice] of Object.entries(prices)) {
+    if (oldPrice.equipment == newEquipmentPrice) return;
+    prices[key] = {
+      price: oldPrice.price - oldPrice.equipment + newEquipmentPrice,
+      equipment: newEquipmentPrice,
+    };
+  }
+}
+
 function configureRoute() {
   console.debug("configureRoute");
+
+  const headerSelector = ".configure-group-area .group-header";
+
+  waitForElement(document, headerSelector, (header) => {
+    const container = header.parentNode.parentNode;
+
+    const getCurrentEquipmentPrice = () => {
+      return extractPrice(container.querySelector(headerSelector)) || 0;
+    };
+
+    let equipmentPrice = getCurrentEquipmentPrice();
+    updatePrices(equipmentPrice);
+
+    const checkEquipmentPrice = () => {
+      const previousPrice = equipmentPrice;
+      equipmentPrice = getCurrentEquipmentPrice();
+      if (equipmentPrice != previousPrice) {
+        updatePrices(equipmentPrice);
+      }
+    };
+
+    const observer = new MutationObserver(debounce(checkEquipmentPrice));
+    observer.observe(container, {
+      childList: true,
+      characterData: true,
+      subtree: true,
+    });
+    pageObservers.push(observer);
+  });
 }
 
 function registerRoute() {
@@ -167,6 +214,8 @@ function handleRoute(url) {
     { path: /\/checkout\/purchase$/, route: purchaseRoute },
   ];
   const matchedRoute = routes.find(({ path }) => path.test(url));
+
+  clearPageObservers();
 
   if (matchedRoute) {
     console.debug("Matched route", matchedRoute.path);

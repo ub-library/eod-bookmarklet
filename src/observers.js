@@ -1,4 +1,4 @@
-export { observeUrlChange, waitForElement };
+export { observeUrlChange, waitForElement, debounce };
 
 function observeUrlChange(callback) {
   let oldHref = document.location.href;
@@ -17,9 +17,18 @@ function observeUrlChange(callback) {
   return observer;
 }
 
-function waitForElement(targetElement, selector, callback) {
-  let debounceTimer;
+function debounce(fn, wait = 100) {
+  let timeout;
+  return function (...args) {
+    const context = this;
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      fn.apply(context, args);
+    }, wait);
+  };
+}
 
+function waitForElement(targetElement, selector, callback) {
   let observer;
   const observerCallback = () => {
     const foundElement = targetElement.querySelector(selector);
@@ -34,10 +43,7 @@ function waitForElement(targetElement, selector, callback) {
     return;
   }
 
-  const debounceCallback = () => {
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(observerCallback, 100);
-  };
+  const debounceCallback = debounce(observerCallback);
 
   observer = new MutationObserver(debounceCallback);
   observer.observe(targetElement, {
