@@ -1,6 +1,7 @@
 {
   "labels": {
     "bookmarkletName": "Create EOD",
+    "bookmarkletInstruction": "Refresh the page (Ctrl+F5) and drag the link to your bookmarks toolbar:",
     "banner": "EOD Bookmarklet is Active",
     "closeButton": "\u274C",
     "copyPrompt": "Copy the generated EOD code",

@@ -59,29 +59,22 @@ config.json.example : src/defaultConfig.json src/exampleConfig.json
 config.json.alma : src/defaultConfig.json tmp/alma_options.json
 	cat $^ | jq '. * input' | $(prettify-json) > $@
 
-tmp/labels.json : src/defaultConfig.json config.json
-	( jq '.labels // {}' < $<; \
-		jq '.labels // {}' < config.json; ) \
-		| jq '. * input' \
-		> $@
+tmp/combinedConfig.json : src/defaultConfig.json config.json
+	cat $^ | jq '. * input' | $(prettify-json) > $@
 
-out/%.js : src/%.js $(SOURCES) config.json
+out/%.js : src/%.js $(SOURCES) tmp/combinedConfig.json
 	@mkdir -p out
 	esbuild --minify --bundle $< > $@
 
-out/%.html : templates/%.html
+out/index.html : templates/index.html.mustache out/main.js tmp/combinedConfig.json
 	@mkdir -p out
-	cp $< $@
-
-out/bookmarklet.html : templates/bookmarklet.html.mustache out/bookmarklet.js tmp/labels.json
-	@mkdir -p out
-	( jq -Rs 'sub(";\n$$"; "") | @uri | { jsUri : . }' < out/bookmarklet.js; \
-		jq < tmp/labels.json; ) \
+	( jq -Rs 'sub(";\n$$"; "") | @uri | { jsUri : . }' < out/main.js; \
+		jq '.labels' < tmp/combinedConfig.json; ) \
 		| jq '. * input' \
 		| mustache $< > $@
 
 .PHONY : pages
-pages : out/index.html out/bookmarklet.html
+pages : out/index.html
 
 .PHONY : clean
 clean:

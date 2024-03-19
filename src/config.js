@@ -1,5 +1,4 @@
-import * as userConfig from "../config.json";
-import * as defaultConfig from "./defaultConfig.json";
+import * as config from "../tmp/combinedConfig.json";
 
 export { config, adlibrisConfig, overlayConfig };
 
@@ -12,13 +11,5 @@ function overlayConfig(config, overlay) {
   };
 }
 
-// First merge at top level, then at the level of allowed overlays
-const config = overlayConfig(
-  { ...defaultConfig, ...userConfig },
-  overlayConfig(defaultConfig, userConfig),
-);
 // Merge in both default adlibris config and custom adlibris config
-const adlibrisConfig = overlayConfig(
-  config,
-  overlayConfig(defaultConfig.adlibris, config.adlibris),
-);
+const adlibrisConfig = overlayConfig(config, config.adlibris);
