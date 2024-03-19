@@ -10,8 +10,16 @@
   "fields": [
     { "id": "v", "label": "Vendor" },
     { "id": "f", "label": "Fund" },
-    { "id": "p", "label": "Price", "type": "number", "required": true },
-    { "id": "a", "label": "Quantity", "type": "number", "required": true },
+    {
+      "id": "p",
+      "label": "Price",
+      "attributes": { "type": "number", "step": "0.01", "required": true }
+    },
+    {
+      "id": "a",
+      "label": "Quantity",
+      "attributes": { "type": "number", "required": true }
+    },
     { "id": "c", "label": "Reporting Code" },
     { "id": "s", "label": "2nd Rep. Code" },
     { "id": "n", "label": "Note" },
@@ -26,7 +34,9 @@
       "closeButton": null,
       "dateNoteField": "Publik anmärkning",
       "datePrefix": "Ordered ",
-      "dateSuffix": "."
+      "dateSuffix": ".",
+      "noPrice": "No prices registered",
+      "noEquipment": "Price does not include any equipment"
     }
   }
 }

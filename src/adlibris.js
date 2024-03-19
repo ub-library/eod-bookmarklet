@@ -6,11 +6,75 @@ export { activateAdlibris };
 
 const bannerId = "eod-bookmarklet-banner";
 const checkoutContainerSelector = "b2l-checkout-container";
+const itemDetailsSelector = "b2l-product-item-info";
 
 const labels = config.labels;
 
+const prices = {};
+
+const cartSelector = "b2l-cart";
+
+function getQuantityPurchase(item) {
+  return Number(
+    item.querySelector(".product-item__quantity").textContent.match(/(\d+)/)[1],
+  );
+}
+
+function getQuantityCart(item) {
+  return Number(item.querySelector("b2l-quantity input").value);
+}
+
+function getPrices(parent) {
+  console.debug("Getting prices");
+
+  const itemSelector = `${parent} .product-item`;
+  const pricePattern = /[^\d]*(\d+),(\d+).*/;
+
+  let getQuantity;
+  if (parent == cartSelector) {
+    getQuantity = getQuantityCart;
+  } else {
+    getQuantity = getQuantityPurchase;
+  }
+  waitForElement(document.body, itemSelector, (_) => {
+    document.querySelectorAll(itemSelector).forEach((item) => {
+      console.log(item);
+      const itemDetails = item.querySelector(itemDetailsSelector).textContent;
+      console.log("itemDetails", itemDetails);
+      const itemQuantity = getQuantity(item);
+      const itemTotal = Number(
+        item
+          .querySelector(".product-item-price__price")
+          .textContent.replace(pricePattern, "$1.$2"),
+      );
+      const equipmentTotal =
+        Number(
+          item
+            .querySelector(".product-item-price__legal")
+            .textContent.replace(pricePattern, "$1.$2"),
+        ) || 0;
+      if (itemTotal && itemQuantity) {
+        prices[itemDetails] = {
+          price: itemTotal / itemQuantity,
+          equipment: equipmentTotal / itemQuantity,
+        };
+        console.log("Got prices", prices);
+      } else {
+        console.warn(
+          "Failed to get prices",
+          itemTotal,
+          itemQuantity,
+          equipmentTotal,
+        );
+      }
+    });
+  });
+}
+
 function cartRoute() {
   console.debug("cartRoute");
+
+  getPrices("b2l-cart");
 }
 
 function configureRoute() {
@@ -37,6 +101,8 @@ function registerRoute() {
     checkoutContainerSelector,
   );
 
+  let warning = false;
+
   waitForElement(checkoutContainer, expandButtonSelector, (expandButton) => {
     if (expandButton.getAttribute("aria-expanded") == "false") {
       expandButton.click();
@@ -52,12 +118,23 @@ function registerRoute() {
           ].join("");
         }
 
-        const quantity = Number(
-          item.querySelector(quantitySelector).textContent,
-        );
+        const itemDetails = item.querySelector(itemDetailsSelector).textContent;
+
+        const price = prices[itemDetails] || {};
+
+        if (!price.price) {
+          warning = labels.noPrice;
+        } else if (price.equipment == 0) {
+          warning = labels.noEquipment;
+        }
+
+        const quantity = item.querySelector(quantitySelector).textContent;
 
         const overlay = {
-          defaults: { [config.mappings.quantity]: quantity },
+          defaults: {
+            [config.mappings.quantity]: quantity,
+            [config.mappings.price]: price.price,
+          },
         };
 
         const itemForm = createForm(
@@ -71,12 +148,17 @@ function registerRoute() {
 
         item.insertBefore(itemForm, item.lastChild);
       });
+
+      if (warning) {
+        alert(warning);
+      }
     });
   });
 }
 
 function purchaseRoute() {
   console.debug("purchaseRoute");
+  getPrices("b2l-cart-summary");
 }
 
 function handleRoute(url) {

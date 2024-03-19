@@ -6,7 +6,7 @@ function createForm({ fields, options = {}, defaults = {}, labels }, callback) {
         ...field,
         options: options[field.id],
         preset: defaults[field.id],
-        type: field.type || "text",
+        attributes: field.attributes || {},
       };
     })
     .filter((field) => !(field.options && field.options.length == 0));
@@ -73,9 +73,13 @@ function createForm({ fields, options = {}, defaults = {}, labels }, callback) {
     } else {
       input = document.createElement("input");
       input.type = field.type;
-      if (field.required) input.required = true;
     }
     input.id = field.id;
+    if (input.type != "hidden") {
+      for (const [attr, value] of Object.entries(field.attributes)) {
+        input[attr] = value;
+      }
+    }
     if (preset) input.value = preset;
     input.style.all = "revert";
     input.style.font = "caption";

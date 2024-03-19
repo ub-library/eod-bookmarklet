@@ -19,14 +19,19 @@
     {
       "id": "p",
       "label": "Price",
-      "type": "number",
-      "required": true
+      "attributes": {
+        "type": "number",
+        "step": "0.01",
+        "required": true
+      }
     },
     {
       "id": "a",
       "label": "Quantity",
-      "type": "number",
-      "required": true
+      "attributes": {
+        "type": "number",
+        "required": true
+      }
     },
     {
       "id": "c",
@@ -54,7 +59,9 @@
       "closeButton": null,
       "dateNoteField": "Publik anmärkning",
       "datePrefix": "Ordered ",
-      "dateSuffix": "."
+      "dateSuffix": ".",
+      "noPrice": "No prices registered",
+      "noEquipment": "Price does not include any equipment"
     },
     "options": {
       "v": ["field"],
