@@ -25,11 +25,16 @@ function getQuantityCart(item) {
   return Number(item.querySelector("b2l-quantity input").value);
 }
 
+function extractPrice(element) {
+  return Number(
+    ((element.textContent.match(/\d+,\d+/) || [])[0] || "-").replace(",", "."),
+  );
+}
+
 function getPrices(parent) {
   console.debug("Getting prices");
 
   const itemSelector = `${parent} .product-item`;
-  const pricePattern = /[^\d]*(\d+),(\d+).*/;
 
   let getQuantity;
   if (parent == cartSelector) {
@@ -43,17 +48,11 @@ function getPrices(parent) {
       const itemDetails = item.querySelector(itemDetailsSelector).textContent;
       console.log("itemDetails", itemDetails);
       const itemQuantity = getQuantity(item);
-      const itemTotal = Number(
-        item
-          .querySelector(".product-item-price__price")
-          .textContent.replace(pricePattern, "$1.$2"),
+      const itemTotal = extractPrice(
+        item.querySelector(".product-item-price__price"),
       );
       const equipmentTotal =
-        Number(
-          item
-            .querySelector(".product-item-price__legal")
-            .textContent.replace(pricePattern, "$1.$2"),
-        ) || 0;
+        extractPrice(item.querySelector(".product-item-price__legal")) || 0;
       if (itemTotal && itemQuantity) {
         prices[itemDetails] = {
           price: itemTotal / itemQuantity,
