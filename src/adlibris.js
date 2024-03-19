@@ -4,15 +4,16 @@ import { createForm } from "./form.js";
 
 export { activateAdlibris };
 
+const labels = config.labels;
+
 const bannerId = "eod-bookmarklet-banner";
+
 const checkoutContainerSelector = "b2l-checkout-container";
 const itemDetailsSelector = "b2l-product-item-info";
-
-const labels = config.labels;
+const cartSelector = "b2l-cart";
 
 const prices = {};
 
-const cartSelector = "b2l-cart";
 
 function getQuantityPurchase(item) {
   return Number(
