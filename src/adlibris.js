@@ -231,13 +231,15 @@ function addBanner() {
   banner.style.backgroundColor = "#fff0f8";
   banner.style.border = "1px solid #999094";
   banner.style.textAlign = "center";
-  banner.style.font = "system-ui";
+  banner.style.font = "caption";
   banner.textContent = labels.banner;
   document.body.insertBefore(banner, document.body.firstChild);
 }
 
 function activateAdlibris() {
-  addBanner();
-  observeUrlChange((newUrl) => handleRoute(newUrl));
-  handleRoute(document.location.href);
+  if (!document.getElementById(bannerId)) {
+    addBanner();
+    observeUrlChange((newUrl) => handleRoute(newUrl));
+    handleRoute(document.location.href);
+  }
 }
