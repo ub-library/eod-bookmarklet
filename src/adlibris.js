@@ -5,6 +5,7 @@ import { createForm } from "./form.js";
 export { activateAdlibris };
 
 const labels = config.labels;
+const settings = config.adlibris.settings;
 
 const bannerId = "eod-bookmarklet-banner";
 
@@ -155,8 +156,8 @@ function registerRoute() {
 
     waitForElement(checkoutContainer, itemSelector, (match) => {
       checkoutContainer.querySelectorAll(itemSelector).forEach((item) => {
-        if (labels.dateNoteField) {
-          const input = item.querySelector(selectNote(labels.dateNoteField));
+        if (settings.dateNoteField) {
+          const input = item.querySelector(selectNote(settings.dateNoteField));
           input.value = [labels.datePrefix, date, labels.dateSuffix].join("");
           input.dispatchEvent(new Event("input", { bubbles: true }));
         }

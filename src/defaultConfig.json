@@ -2,7 +2,6 @@
   "labels": {
     "bookmarkletName": "Create EOD",
     "bookmarkletInstruction": "Refresh the page (Ctrl+F5) and drag the link to your bookmarks toolbar:",
-    "banner": "EOD Bookmarklet is Active",
     "closeButton": "\u274C",
     "copyPrompt": "Copy the generated EOD code",
     "submit": "Create EOD code",
@@ -32,12 +31,15 @@
   },
   "adlibris": {
     "labels": {
+      "banner": "EOD Bookmarklet is Active",
       "closeButton": null,
-      "dateNoteField": "Publik anmärkning",
       "datePrefix": "Ordered ",
       "dateSuffix": ".",
       "noPrice": "No prices registered",
       "noEquipment": "Price does not include any equipment"
+    },
+    "settings": {
+      "dateNoteField": "Publik anmärkning"
     }
   }
 }

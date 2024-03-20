@@ -77,12 +77,13 @@ function createForm({ fields, options = {}, defaults = {}, labels }, callback) {
     input.name = field.id;
     if (input.type != "hidden") {
       for (const [attr, value] of Object.entries(field.attributes)) {
+        if (!value) continue;
         input[attr] = value;
       }
+      if (preset) input.value = preset;
+      input.style.all = "revert";
+      input.style.font = "caption";
     }
-    if (preset) input.value = preset;
-    input.style.all = "revert";
-    input.style.font = "caption";
     form.appendChild(input);
   });
 
