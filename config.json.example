@@ -67,25 +67,21 @@
       "dateNoteField": "Publik anmärkning"
     },
     "options": {
-      "v": ["field"],
-      "s": ["sndCode3"]
+      "v": ["adlibris_vendor_code"],
+      "s": ["sndCode2"]
     }
   },
   "options": {
-    "v": ["map", "field", "ids", "to", "lists", "of", "options"],
+    "v": ["vendor1", "vendor2", "adlibris_vendor_code"],
     "f": [
-      ["fund1", "If an option is an array"],
-      ["fund2", "the first item is the value"],
-      ["fund3", "and the second is the label."],
-      ["fund4", "You can mix labeled and"],
-      "unlabeled",
-      ["fund6", "options in the same list."]
+      ["fund1", "Fund one"],
+      ["fund2", "Fund two"],
+      ["fund3", "Fund three"]
     ],
-    "c": [["code1", "A single option will become a hidden field"]],
+    "c": [["report1", "This single option will become hidden"]],
     "s": [
-      ["sndCode1", "This is set as default below"],
-      ["sndCode2", "An empty list like for 'r' below"],
-      ["sndCode3", "will disable the field"]
+      ["sndCode1", "Some secondary reporting code"],
+      ["sndCode2", "Some other secondary reporting code"]
     ],
     "r": []
   },
