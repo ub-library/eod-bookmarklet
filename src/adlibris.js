@@ -156,11 +156,9 @@ function registerRoute() {
     waitForElement(checkoutContainer, itemSelector, (match) => {
       checkoutContainer.querySelectorAll(itemSelector).forEach((item) => {
         if (labels.dateNoteField) {
-          item.querySelector(selectNote(labels.dateNoteField)).value = [
-            labels.datePrefix,
-            date,
-            labels.dateSuffix,
-          ].join("");
+          const input = item.querySelector(selectNote(labels.dateNoteField));
+          input.value = [labels.datePrefix, date, labels.dateSuffix].join("");
+          input.dispatchEvent(new Event("input", { bubbles: true }));
         }
 
         const itemDetails = item.querySelector(itemDetailsSelector).textContent;
@@ -185,7 +183,9 @@ function registerRoute() {
         const itemForm = createForm(
           overlayConfig(config, overlay),
           (str, form) => {
-            item.querySelector(selectNote("Intern anmärkning")).value = str;
+            const input = item.querySelector(selectNote("Intern anmärkning"));
+            input.value = str;
+            input.dispatchEvent(new Event("input", { bubbles: true }));
           },
         );
 
