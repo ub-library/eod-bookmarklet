@@ -8,10 +8,10 @@ SOURCES := $(wildcard src/*)
 
 ALMA_API_HOST ?= https://api-eu.hosted.exlibrisgroup.com
 ALMA_API ?= $(ALMA_API_HOST)/almaws/v1
-ALMA_AUTH_HEADER_COMMAND ?=
+ALMA_API_KEY_COMMAND ?=
 
 curl := curl --fail --no-progress-meter -H Accept:application/json \
-				-H @<(eval $(ALMA_AUTH_HEADER_COMMAND))
+				-H @<(printf 'Authorization: apikey %s' $$($(ALMA_API_KEY_COMMAND)))
 
 has_prettier := $(shell command -v prettier 2>/dev/null)
 ifdef has_prettier
@@ -26,23 +26,23 @@ endif
 GUARD = tmp/$(1)_GUARD_$(shell echo $($(1)) | md5sum | cut -d ' ' -f 1)
 
 # Define a target for the generated name
-$(call GUARD,ALMA_AUTH_HEADER_COMMAND):
-ifdef ALMA_AUTH_HEADER_COMMAND
-	rm -f tmp/ALMA_AUTH_HEADER_COMMAND_GUARD_*
+$(call GUARD,ALMA_API_KEY_COMMAND):
+ifdef ALMA_API_KEY_COMMAND
+	rm -f tmp/ALMA_API_KEY_COMMAND_GUARD_*
 	touch "$@"
 else
-	$(error ALMA_AUTH_HEADER_COMMAND must be set for this target)
+	$(error ALMA_API_KEY_COMMAND must be set for this target)
 endif
 
-tmp/funds.json : script/funds_to_conf.jq $(call GUARD,ALMA_AUTH_HEADER_COMMAND)
+tmp/funds.json : script/funds_to_conf.jq $(call GUARD,ALMA_API_KEY_COMMAND)
 	$(curl)  $(ALMA_API)'/acq/funds?limit=100&view=brief' \
 		| jq -f $< > $@
 
-tmp/report1.json : script/reporting_codes_to_conf.jq $(call GUARD,ALMA_AUTH_HEADER_COMMAND)
+tmp/report1.json : script/reporting_codes_to_conf.jq $(call GUARD,ALMA_API_KEY_COMMAND)
 	$(curl) $(ALMA_API)'/conf/code-tables/HFundsTransactionItem.reportingCode' \
 		| jq -f $< > $@
 
-tmp/report2.json : script/reporting_codes_to_conf.jq $(call GUARD,ALMA_AUTH_HEADER_COMMAND)
+tmp/report2.json : script/reporting_codes_to_conf.jq $(call GUARD,ALMA_API_KEY_COMMAND)
 	$(curl) $(ALMA_API)'/conf/code-tables/SecondReportingCode' \
 		| jq -f $< > $@
 
