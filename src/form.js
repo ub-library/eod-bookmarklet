@@ -74,7 +74,7 @@ function createForm({ fields, options = {}, defaults = {}, labels }, callback) {
       input = document.createElement("input");
       input.type = field.type;
     }
-    input.id = field.id;
+    input.name = field.id;
     if (input.type != "hidden") {
       for (const [attr, value] of Object.entries(field.attributes)) {
         input[attr] = value;
@@ -98,7 +98,7 @@ function createForm({ fields, options = {}, defaults = {}, labels }, callback) {
     e.preventDefault();
     const formData = {};
     fields.forEach(function (field) {
-      formData[field.id] = document.getElementById(field.id).value;
+      formData[field.id] = form[field.id].value;
     });
     callback(JSON.stringify(formData), form);
   };
