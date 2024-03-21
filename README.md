@@ -23,9 +23,12 @@ Libris holding registration form.
 When activated in the Adlibris checkout workflow, the bookmarklet embeds a form
 for each purchased title on the Libris registration page. It can also extract
 prices and quantity information from the workflow pages, pre-populating the
-form. Typically you would activate the bookmarklet at (or before) the first page
-in the checkout workflow, so it is able to pick up all necessary data before the
-registration page, but you can also step back and forward after the activation.
+form. It works by embedding a handler tracking changes to
+`document.location.href` and persists across pages as Adlibris doesn't reload
+the full page. Typically you would activate the bookmarklet at (or before) the
+first page in the checkout workflow, so it is able to pick up all necessary data
+before the registration page, but you can also step back and forward after the
+activation.
 
 On submission of each form the JSON-encoded data is automatically entered into
 the "Internal note" field. (If leaving and reentering the registration page, the
