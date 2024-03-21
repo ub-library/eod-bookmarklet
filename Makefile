@@ -59,17 +59,17 @@ config.json.example : src/defaultConfig.json src/exampleConfig.json
 config.json.alma : src/defaultConfig.json tmp/alma_options.json
 	cat $^ | jq '. * input' | $(prettify-json) > $@
 
-tmp/combinedConfig.json : src/defaultConfig.json config.json
+out/appliedConfig.json : src/defaultConfig.json config.json
 	cat $^ | jq '. * input' | $(prettify-json) > $@
 
-out/%.js : src/%.js $(SOURCES) tmp/combinedConfig.json
+out/%.js : src/%.js $(SOURCES) out/appliedConfig.json
 	@mkdir -p out
 	esbuild --minify --bundle $< > $@
 
-out/index.html : templates/index.html.mustache out/main.js tmp/combinedConfig.json
+out/index.html : templates/index.html.mustache out/main.js out/appliedConfig.json
 	@mkdir -p out
 	( jq -Rs 'sub(";\n$$"; "") | @uri | { jsUri : . }' < out/main.js; \
-		jq '.labels' < tmp/combinedConfig.json; ) \
+		jq '.labels' < out/appliedConfig.json; ) \
 		| jq '. * input' \
 		| mustache $< > $@
 
