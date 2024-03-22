@@ -20,15 +20,15 @@ function observeUrlChange(callback) {
 function debounce(fn, wait = 100) {
   let timeout;
   return function (...args) {
-    const context = this;
     clearTimeout(timeout);
     timeout = setTimeout(() => {
-      fn.apply(context, args);
+      fn.apply(this, args);
     }, wait);
   };
 }
 
 function waitForElement(targetElement, selector, callback) {
+  // biome-ignore lint/style/useConst: Required for putting in scope
   let observer;
   const observerCallback = () => {
     const foundElement = targetElement.querySelector(selector);

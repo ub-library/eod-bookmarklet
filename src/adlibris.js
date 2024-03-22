@@ -1,6 +1,6 @@
 import { adlibrisConfig as config, overlayConfig } from "./config.js";
-import { observeUrlChange, waitForElement, debounce } from "./observers.js";
 import { createForm } from "./form.js";
+import { debounce, observeUrlChange, waitForElement } from "./observers.js";
 
 export { activateAdlibris };
 
@@ -18,9 +18,9 @@ const prices = {};
 const pageObservers = [];
 
 function clearPageObservers() {
-  pageObservers.forEach((observer) => {
+  for (const observer of pageObservers) {
     observer.disconnect();
-  });
+  }
   pageObservers.length = 0;
 }
 
@@ -46,13 +46,13 @@ function getPrices(parent) {
   const itemSelector = `${parent} .product-item`;
 
   let getQuantity;
-  if (parent == cartSelector) {
+  if (parent === cartSelector) {
     getQuantity = getQuantityCart;
   } else {
     getQuantity = getQuantityPurchase;
   }
   waitForElement(document.body, itemSelector, (_) => {
-    document.querySelectorAll(itemSelector).forEach((item) => {
+    for (const item of document.querySelectorAll(itemSelector)) {
       const itemDetails = item.querySelector(itemDetailsSelector).textContent;
       const itemQuantity = getQuantity(item);
       const itemTotal = extractPrice(
@@ -74,7 +74,7 @@ function getPrices(parent) {
           equipmentTotal,
         );
       }
-    });
+    }
   });
 }
 
@@ -86,7 +86,7 @@ function cartRoute() {
 
 function updatePrices(newEquipmentPrice) {
   for (const [key, oldPrice] of Object.entries(prices)) {
-    if (oldPrice.equipment == newEquipmentPrice) return;
+    if (oldPrice.equipment === newEquipmentPrice) return;
     prices[key] = {
       price: oldPrice.price - oldPrice.equipment + newEquipmentPrice,
       equipment: newEquipmentPrice,
@@ -112,7 +112,7 @@ function configureRoute() {
     const checkEquipmentPrice = () => {
       const previousPrice = equipmentPrice;
       equipmentPrice = getCurrentEquipmentPrice();
-      if (equipmentPrice != previousPrice) {
+      if (equipmentPrice !== previousPrice) {
         updatePrices(equipmentPrice);
       }
     };
@@ -132,8 +132,8 @@ function registerRoute() {
 
   const expandButtonSelector = "b2l-show-hide-products button";
   const itemSelector = "b2l-checkout-register-item";
-  const quantitySelector = `.quantity-display`;
-  const registerContainerSelector = `.register-item:last-child`;
+  const quantitySelector = ".quantity-display";
+  const registerContainerSelector = ".register-item:last-child";
 
   const selectNote = (label) =>
     `b2l-book-registration-property[label='${label}'] input`;
@@ -150,12 +150,12 @@ function registerRoute() {
   let warning = false;
 
   waitForElement(checkoutContainer, expandButtonSelector, (expandButton) => {
-    if (expandButton.getAttribute("aria-expanded") == "false") {
+    if (expandButton.getAttribute("aria-expanded") === "false") {
       expandButton.click();
     }
 
     waitForElement(checkoutContainer, itemSelector, (match) => {
-      checkoutContainer.querySelectorAll(itemSelector).forEach((item) => {
+      for (const item of checkoutContainer.querySelectorAll(itemSelector)) {
         if (settings.dateNoteField) {
           const input = item.querySelector(selectNote(settings.dateNoteField));
           input.value = [labels.datePrefix, date, labels.dateSuffix].join("");
@@ -168,7 +168,7 @@ function registerRoute() {
 
         if (!price.price) {
           warning = labels.noPrice;
-        } else if (price.equipment == 0) {
+        } else if (price.equipment === 0) {
           warning = labels.noEquipment;
         }
 
@@ -193,7 +193,7 @@ function registerRoute() {
         const registerContainer = item.querySelector(registerContainerSelector);
 
         item.insertBefore(itemForm, item.lastChild);
-      });
+      }
 
       if (warning) {
         alert(warning);

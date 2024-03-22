@@ -9,7 +9,7 @@ function createForm({ fields, options = {}, defaults = {}, labels }, callback) {
         attributes: field.attributes || {},
       };
     })
-    .filter((field) => !(field.options && field.options.length == 0));
+    .filter((field) => !(field.options && field.options.length === 0));
 
   const form = document.createElement("form");
   form.style.all = "revert";
@@ -35,19 +35,19 @@ function createForm({ fields, options = {}, defaults = {}, labels }, callback) {
     form.appendChild(closeButton);
   }
 
-  fields.forEach(function (field) {
+  for (const field of fields) {
     const options = field.options;
     const preset = field.preset;
 
     let input;
 
     const label = document.createElement("label");
-    label.textContent = field.label + ": ";
+    label.textContent = `${field.label}: `;
     label.htmlFor = field.id;
     label.style.textAlign = "right";
     form.appendChild(label);
 
-    if (options && options.length == 1) {
+    if (options && options.length === 1) {
       const option = options[0];
       input = document.createElement("input");
       input.type = "hidden";
@@ -64,18 +64,18 @@ function createForm({ fields, options = {}, defaults = {}, labels }, callback) {
         emptyOption.disabled = true;
         input.appendChild(emptyOption);
       }
-      field.options.forEach(function (option) {
+      for (const option of field.options) {
         const optionElement = document.createElement("option");
         optionElement.value = Array.isArray(option) ? option[0] : option;
         optionElement.textContent = Array.isArray(option) ? option[1] : option;
         input.appendChild(optionElement);
-      });
+      }
     } else {
       input = document.createElement("input");
       input.type = field.type;
     }
     input.name = field.id;
-    if (input.type != "hidden") {
+    if (input.type !== "hidden") {
       for (const [attr, value] of Object.entries(field.attributes)) {
         if (!value) continue;
         input[attr] = value;
@@ -85,7 +85,7 @@ function createForm({ fields, options = {}, defaults = {}, labels }, callback) {
       input.style.font = "caption";
     }
     form.appendChild(input);
-  });
+  }
 
   const submitButton = document.createElement("button");
   submitButton.textContent = labels.submitButton;
@@ -95,12 +95,12 @@ function createForm({ fields, options = {}, defaults = {}, labels }, callback) {
   submitButton.style.font = "caption";
   form.appendChild(submitButton);
 
-  form.onsubmit = function (e) {
+  form.onsubmit = (e) => {
     e.preventDefault();
     const formData = {};
-    fields.forEach(function (field) {
+    for (const field of fields) {
       formData[field.id] = form[field.id].value;
-    });
+    }
     callback(JSON.stringify(formData), form);
   };
 

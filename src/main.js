@@ -1,6 +1,6 @@
+import { activateAdlibris } from "./adlibris.js";
 import { config } from "./config.js";
 import { createForm } from "./form.js";
-import { activateAdlibris } from "./adlibris.js";
 
 if (document.location.href.match(/\/www\.adlibris\.com\//)) {
   activateAdlibris();
