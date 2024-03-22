@@ -4,7 +4,7 @@
     "bookmarkletInstruction": "Refresh the page (Ctrl+F5) and drag the link to your bookmarks toolbar:",
     "closeButton": "❌",
     "copyPrompt": "Copy the generated EOD code",
-    "submit": "Create EOD code",
+    "submitButton": "Create EOD code",
     "emptyOption": "-- Select an option --"
   },
   "fields": [

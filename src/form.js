@@ -88,7 +88,7 @@ function createForm({ fields, options = {}, defaults = {}, labels }, callback) {
   });
 
   const submitButton = document.createElement("button");
-  submitButton.textContent = labels.submit;
+  submitButton.textContent = labels.submitButton;
   submitButton.type = "submit";
   submitButton.style.all = "revert";
   submitButton.style.gridColumn = "2 / 3";

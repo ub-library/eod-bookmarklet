@@ -172,7 +172,10 @@ present in the default and example configurations. All values must be strings,
 with on exception:
 
 ```json
-{ "copyPrompt": "Copy the JSON data below", "submit": "Generate internal note" }
+{
+  "copyPrompt": "Copy the JSON data below",
+  "submitButton": "Generate internal note"
+}
 ```
 
 The `closeButton` label is special and can be set to `null` to disable the close
