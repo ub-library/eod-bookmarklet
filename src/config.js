@@ -1,4 +1,4 @@
-import * as config from "../tmp/combinedConfig.json";
+import * as config from "../out/appliedConfig.json";
 
 export { config, adlibrisConfig, overlayConfig };
 
