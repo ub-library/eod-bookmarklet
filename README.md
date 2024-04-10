@@ -64,7 +64,7 @@ Optional dependencies to extract configuration data from Alma:
 
 The build environment can be set up through the provided nix flake (assuming
 [Nix][] is installed with [experimental features][nix-experimental] nix-command
-and flakes are enabled). An example `.envrc`-file for use with `direnv` is also
+and flakes enabled). An example `.envrc`-file for use with `direnv` is also
 provided.
 
 [nix]: https://nixos.org
@@ -94,7 +94,7 @@ Running `make` will build three files:
 - `out/appliedConfig.json` - the applied configuration.
 - `out/main.js` - the compiled JavaScript.
 - `out/index.html` - an HTML page containing the bookmarklet
-  as a link with that can be dragged to you bookmarks toolbar.
+  as a link that can be dragged to you bookmarks toolbar.
   **This is the primary output. Publish `index.html` and share it with your
   users.**
 
@@ -190,7 +190,7 @@ button on the form.
 A list of field definitions. A customized list will replace the default fields
 completely.
 
-Each field definition is an object with two or three keys. The fields `id` and
+Each field definition is an object with two or three keys. The keys `id` and
 `label` are mandatory, while `attributes` is optional. All attributes will be
 set on the input field of the form (nested values not allowed).
 
