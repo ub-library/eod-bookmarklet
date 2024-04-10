@@ -1,3 +1,5 @@
+// This file is an alternative entry point without the adlibris functionality.
+// Mainly useful during development.
 import { config } from "./config.js";
 import { createForm } from "./form.js";
 
