@@ -138,9 +138,6 @@ function registerRoute() {
   const selectNote = (label) =>
     `b2l-book-registration-property[label='${label}'] input`;
 
-  const datePrefix = labels.datePrefix;
-  const dateSuffix = labels.dateSuffix;
-
   const date = new Date().toISOString().slice(0, 10);
 
   const checkoutContainer = document.body.querySelector(
