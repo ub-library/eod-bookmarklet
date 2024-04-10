@@ -76,7 +76,7 @@ The bookmarklet is built using `make`. For better or for worse, neither nodejs
 nor npm is required (except if you want to use prettier to format your config).
 
 To make the build work you will need to create the file `config.json` in the
-project top level directory. See [Configuration][#configuration] below.
+project top level directory. See [Configuration](#configuration) below.
 
 ```sh
 # Copy the example configuration
