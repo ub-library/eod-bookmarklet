@@ -169,7 +169,7 @@ The values for these configuration keys are described below.
 
 An object that defines texts used in various places. The available keys are all
 present in the default and example configurations. All values must be strings,
-with on exception:
+with one exception:
 
 ```json
 {
