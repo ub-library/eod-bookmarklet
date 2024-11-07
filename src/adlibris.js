@@ -136,7 +136,7 @@ function registerRoute() {
   const registerContainerSelector = ".register-item:last-child";
 
   const selectNote = (label) =>
-    `b2l-book-registration-property[label='${label}'] input`;
+    `b2l-book-registration-property-update[label='${label}'] input`;
 
   const date = new Date().toISOString().slice(0, 10);
 
@@ -154,7 +154,8 @@ function registerRoute() {
     waitForElement(checkoutContainer, itemSelector, (match) => {
       for (const item of checkoutContainer.querySelectorAll(itemSelector)) {
         if (settings.dateNoteField) {
-          const input = item.querySelector(selectNote(settings.dateNoteField));
+          const dateNoteSelector = selectNote(settings.dateNoteField);
+          const input = item.querySelector(dateNoteSelector);
           input.value = [labels.datePrefix, date, labels.dateSuffix].join("");
           input.dispatchEvent(new Event("input", { bubbles: true }));
         }
