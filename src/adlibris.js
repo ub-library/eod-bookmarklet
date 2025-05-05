@@ -36,7 +36,10 @@ function getQuantityCart(item) {
 
 function extractPrice(element) {
   return Number(
-    ((element.textContent.match(/\d+,\d+/) || [])[0] || "-").replace(",", "."),
+    (
+      (element.textContent.replace(/\u00a0/, "").match(/\d+,\d+/) || [])[0] ||
+      "-"
+    ).replace(",", "."),
   );
 }
 
