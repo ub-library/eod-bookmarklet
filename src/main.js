@@ -2,7 +2,7 @@ import { activateAdlibris } from "./adlibris.js";
 import { config } from "./config.js";
 import { createForm } from "./form.js";
 
-if (document.location.href.match(/\/www\.adlibris\.com\//)) {
+if (document.location.hostname.match(/(^|\.)adlibris\.com$/)) {
   activateAdlibris();
 } else {
   const myForm = createForm(config, (str, form) => {
