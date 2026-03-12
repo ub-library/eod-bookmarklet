@@ -35,18 +35,22 @@ else
 endif
 
 tmp/funds.json : script/funds_to_conf.jq $(call GUARD,ALMA_API_KEY_COMMAND)
+	@mkdir -p $(@D)
 	$(curl)  $(ALMA_API)'/acq/funds?limit=100&view=brief' \
 		| jq -f $< > $@
 
 tmp/report1.json : script/reporting_codes_to_conf.jq $(call GUARD,ALMA_API_KEY_COMMAND)
+	@mkdir -p $(@D)
 	$(curl) $(ALMA_API)'/conf/code-tables/HFundsTransactionItem.reportingCode' \
 		| jq -f $< > $@
 
 tmp/report2.json : script/reporting_codes_to_conf.jq $(call GUARD,ALMA_API_KEY_COMMAND)
+	@mkdir -p $(@D)
 	$(curl) $(ALMA_API)'/conf/code-tables/SecondReportingCode' \
 		| jq -f $< > $@
 
 tmp/alma_options.json : script/alma_options.jq tmp/funds.json tmp/report1.json tmp/report2.json
+	@mkdir -p $(@D)
 	jq \
 		--slurpfile f tmp/funds.json \
 		--slurpfile c tmp/report1.json \
@@ -60,14 +64,15 @@ config.json.alma : src/defaultConfig.json tmp/alma_options.json
 	cat $^ | jq '. * input' | $(prettify-json) > $@
 
 out/appliedConfig.json : src/defaultConfig.json config.json
+	@mkdir -p $(@D)
 	cat $^ | jq '. * input' | $(prettify-json) > $@
 
 out/%.js : src/%.js $(SOURCES) out/appliedConfig.json
-	@mkdir -p out
+	@mkdir -p $(@D)
 	esbuild --minify --bundle $< > $@
 
 out/index.html : templates/index.html.mustache out/main.js out/appliedConfig.json
-	@mkdir -p out
+	@mkdir -p $(@D)
 	( jq -Rs 'sub(";\n$$"; "") | @uri | { jsUri : . }' < out/main.js; \
 		jq '.labels' < out/appliedConfig.json; ) \
 		| jq '. * input' \
@@ -78,8 +83,8 @@ pages : out/index.html
 
 .PHONY : clean
 clean:
-	find out -mindepth 1 -delete
+	rm -rf -- out
 
 .PHONY : clobber
 clobber : clean
-	find tmp -mindepth 1 -delete
+	rm -rf -- tmp
