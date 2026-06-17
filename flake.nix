@@ -1,6 +1,6 @@
 {
   description = "A basic flake with a shell";
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-23.11-darwin";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-26.05-darwin";
   inputs.flake-utils.url = "github:numtide/flake-utils";
 
   outputs = { nixpkgs, flake-utils, ... }:
@@ -15,7 +15,7 @@
             pkgs.esbuild
             pkgs.jq
             pkgs.mustache-go
-            pkgs.nodePackages.prettier
+            pkgs.prettier
           ];
         };
       });
